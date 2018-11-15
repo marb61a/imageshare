@@ -25,9 +25,12 @@ const PostSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
+  // The property createdBy === path
+  // The ref "User" === model
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
-    required: true
+    required: true,
+    ref: "User"
   },
   messages: [{
     messageBody: {

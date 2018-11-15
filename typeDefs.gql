@@ -26,6 +26,10 @@ type Message {
   messageUser: User!
 }
 
+type Query {
+  getPosts: [Post]
+}
+
 type Mutation {
   addPost(
     title: String!,
