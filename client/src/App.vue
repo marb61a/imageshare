@@ -13,6 +13,25 @@
 
       <v-spacer></v-spacer>
 
+      <!-- Search Input -->
+      <v-text-field
+        flex
+        prepend-icon="search"
+        placeholder="Search Posts"
+        color="accent"
+        single-line
+        hide-details
+      >
+      </v-text-field>
+      <v-spacer></v-spacer>
+
+      <!-- Horizontal Navbar Links -->
+      <v-toolbar-items>
+        <v-btn flat v-for="item in horizontalNavItems">
+          Posts
+        </v-btn>
+      </v-toolbar-items>
+
     </v-toolbar>
 
     <main>
@@ -20,3 +39,16 @@
     </main>
   </v-app>
 </template>
+
+<script>
+  export default {
+    name: 'App',
+    computed: {
+      horizontalNavItems() {
+        return [
+          {}
+        ]
+      }
+    }
+  }
+</script>
