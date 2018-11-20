@@ -21,8 +21,20 @@
 
       <!-- Side Navbar Links -->
       <v-list>
-        <v-list-tile v-for="item in sideNavItems">
-
+        <v-list-tile 
+          ripple
+          v-for="item in sideNavItems" 
+          :key="item.title"
+          :to="item.link"
+        >
+          <v-list-tile-action>
+            <v-icon>
+              {{item.icon}}
+            </v-icon>
+          </v-list-tile-action>
+          <v-list-tile-action>
+            {{item.title}}
+          </v-list-tile-action>
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
@@ -94,7 +106,11 @@
         ]
       },
       sideNavItems() {
-        
+        return [
+          {icon: "chat", title: 'posts', link: '/posts'},
+          {icon: 'lock_open', title: 'Sign In', link: '/signin'},
+          {icon: 'create', title: 'Sign Up', link: '/signup'}
+        ]
       }
     },
     methods: {
