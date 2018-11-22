@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import { GET_POSTS } from "./queries";
+import { defaultClient as apolloClient } from "./main"
+import { GET_POSTS } from "./queries"
 
 Vue.use(Vuex)
 
@@ -20,7 +21,23 @@ export default new Vuex.Store({
   },
   actions: {
     getPosts: ({commit}) => {
-      
+      commit("setLoading", true)
+      apolloClient
+        .query({
+          query: GET_POSTS
+        })
+        .then(({ data }) => {
+          commit("setPosts", data.getPosts);
+          commit("setLoading", false)
+        })
+        .catch(err => {
+          commit("setLoading", false)
+          console.error(ErrorEvent)
+        })
     }
+  },
+  getters: {
+    posts: state => state.posts,
+    loading: state => state.loading
   }
 })
