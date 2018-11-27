@@ -155,22 +155,50 @@
       }
     },
     watch: {
-
+      user(newValue, oldValue) {
+        // If there was no value for user before then show the snackbar
+        if(oldValue === null) {
+          this.authSnackbar = true
+        }
+      },
+      authError(value) {
+        // If the auth error is not null, show auth error snackbar
+        if(value !== null) {
+          this.authErrorSnackbar = true
+        }
+      }
     },
     computed: {
+      ...mapGetters(["authError", "user"]),
       horizontalNavItems() {
-        return [
+        let items = [
           {icon: "chat", title: 'posts', link: '/posts'},
           {icon: 'lock_open', title: 'Sign In', link: '/signin'},
           {icon: 'create', title: 'Sign Up', link: '/signup'}
         ]
+
+        if(this.user) {
+          items = [{ 
+            icon: "chat", title: "Posts", link: "/posts" 
+          }]
+        }
+        return items
       },
       sideNavItems() {
-        return [
+        let items = [
           {icon: "chat", title: 'posts', link: '/posts'},
           {icon: 'lock_open', title: 'Sign In', link: '/signin'},
           {icon: 'create', title: 'Sign Up', link: '/signup'}
         ]
+
+        if(this.user) {
+          items = [
+            { icon: "chat", title: "Posts", link: "/posts" },
+            { icon: "stars", title: "Create Post", link: "/post/add" },
+            { icon: "account_box", title: "Profile", link: "/profile" }
+          ]
+        }
+        return items
       }
     },
     methods: {
