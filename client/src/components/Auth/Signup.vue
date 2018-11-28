@@ -86,8 +86,38 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
-  name: "Signup"
+  name: "Signup",
+  data () {
+    return {
+      isFormValid: true,
+      username: "",
+      email: "",
+      password: "",
+      passwordConfirmation: "",
+      usernameRules: [
+        
+      ]
+    }
+  },
+  watch: {
+    user(value) {
+      // If the user value changes redirect to the home page
+      if(value) {
+        this.$router.push("/")
+      }
+    }
+  },
+  computed: {
+    ...mapGetters(["loading", "error", "user"])
+  },
+  methods: {
+    handleSignupUser() {
+
+    }
+  }
 }
 </script>
 
