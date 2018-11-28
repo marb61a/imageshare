@@ -25,7 +25,58 @@
               ref="form" 
               @submit.prevent="handleSignupUser"
             >
-
+              <v-layout row>
+                <v-flex xs12>
+                  <v-text-field 
+                    :rules="usernameRules" 
+                    v-model="username" 
+                    prepend-icon="face" 
+                    label="Username" 
+                    type="text" 
+                    required
+                  >
+                  </v-text-field>
+                </v-flex>
+              </v-layout>
+              <v-layout row>
+                <v-flex xs12>
+                  <v-text-field 
+                    :rules="emailRules" 
+                    v-model="email" 
+                    prepend-icon="email" 
+                    label="Email" 
+                    type="email" 
+                    required
+                  >
+                  </v-text-field>
+                </v-flex>
+              </v-layout>
+              <v-layout row>
+                <v-flex xs12>
+                  <v-text-field 
+                    :rules="passwordRules" 
+                    v-model="password" 
+                    prepend-icon="extension" 
+                    label="Password" 
+                    type="password" 
+                    required
+                  >
+                  </v-text-field>
+                </v-flex>
+              </v-layout>
+              <v-layout row>
+                <v-flex xs12>
+                  <v-text-field 
+                    :rules="passwordRules" 
+                    v-model="passwordConfirmation" 
+                    prepend-icon="gavel" 
+                    label="Confirm Password" 
+                    type="password" 
+                    required
+                  >
+                  </v-text-field>
+                </v-flex>
+              </v-layout>
             </v-form>
           </v-container>
         </v-card>
