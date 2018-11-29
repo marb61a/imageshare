@@ -76,7 +76,9 @@ module.exports = {
         password
       }).save();
 
-      return newUser;
+      return {
+        token: createToken(newUser, process.env.SECRET, "1hr")
+      };
     }
   }
 }

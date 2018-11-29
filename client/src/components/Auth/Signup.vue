@@ -77,6 +77,21 @@
                   </v-text-field>
                 </v-flex>
               </v-layout>
+              <v-layout row>
+                <v-flex xs12>
+                  <v-btn
+                    :loading="loading"
+                    :disabled="!isFormValid || loading"
+                    color="info"
+                    type="submit"
+                  >
+                    <span slot="loader" class="custom-loader">
+                      <v-icon light>cached</v-icon>
+                    </span>
+                    Signup
+                  </v-btn>
+                </v-flex>
+              </v-layout>
             </v-form>
           </v-container>
         </v-card>
@@ -98,7 +113,19 @@ export default {
       password: "",
       passwordConfirmation: "",
       usernameRules: [
-        
+        username => !!username || "Username is required",
+        username =>
+          username.length < 10 || "Username cannot be more than 10 characters"
+      ],
+      emailRules: [
+        email => !!email || "Email is required",
+        email => /.@+./.test(email) || "Email must be valid"
+      ],
+      passwordRules: [
+        password => !!password || "Password is required",
+        password => 
+          password.length >= 4 || "Password must be at least 4 characters",
+        confirmation => confirmation === this.password || "Passwords must match"
       ]
     }
   },
