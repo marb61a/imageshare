@@ -90,6 +90,10 @@
                     </span>
                     Signup
                   </v-btn>
+                  <h3>
+                    Already have an account?
+                    <router-link to="/signin">Signin</router-link>
+                  </h3>
                 </v-flex>
               </v-layout>
             </v-form>
@@ -142,12 +146,14 @@ export default {
   },
   methods: {
     handleSignupUser() {
-
+      if(this.$refs.form.validate) {
+        this.$store.dispatch("signupUser", {
+          username: this.username,
+          email: this.email,
+          password: this.password
+        })
+      }
     }
   }
 }
 </script>
-
-<style>
-
-</style>
