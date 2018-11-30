@@ -32,18 +32,18 @@ export default {
   name: "Posts",
   data() {
     return {
-
+      pageNum: 1,
+      showMoreEnabled: true,
+      showPostCreator: false
     }
   },
   apollo: {
 
   },
   methods: {
-    
+    showMorePosts() {
+
+    }
   }
 }
 </script>
-
-<style>
-
-</style>
