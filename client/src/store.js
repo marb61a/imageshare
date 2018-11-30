@@ -79,11 +79,35 @@ export default new Vuex.Store({
           variables: payload
         })
         .then(({ data }) => {
+          commit("setLoading", false)
           localStorage.setItem("token", data.signinUser.token)
+          // To make sure the created method is run in main.js reload page
+          router.go()
         })
         .catch(err => {
           commit("setLoading", false)
-          console.error(ErrorEvent)
+          commit("setError", err)
+          console.error(err)
+        })
+    },
+    signupUser: ({ commit }, payload) => {
+      commit("clearError")
+      commit("setLoading", true)
+      apolloClient
+        .mutate({
+          mutation: SIGNUP_USER,
+          variables: payload
+        })
+        .then(({ data }) => {
+          commit("setLoading", false)
+          localStorage.setItem("token", data.signupUser.token)
+          // To make sure the created method is run in main.js reload page          
+          router.go()
+        })
+        .catch(err => {
+          commit("setLoading", false)
+          commit("setError", err)
+          console.error(err)
         })
     }
   },
