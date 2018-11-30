@@ -47,7 +47,14 @@ export default new Vuex.Store({
           query: GET_CURRENT_USER
         })
         .then(({data}) => {
-          
+          commit("setLoading", false);
+          // Add user data to state
+          commit("setUser", data.getCurrentUser);
+          console.log(data.getCurrentUser);
+        })
+        .catch(err => {
+          commit("setLoading", false)
+          console.error(ErrorEvent)
         })
     },
     getPosts: ({commit}) => {
