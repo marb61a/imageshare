@@ -16,7 +16,36 @@
               </div>
             </v-card-title>
             <v-spacer></v-spacer>
+            <v-btn>
+              <v-icon @click="showPostCreator = !showPostCreator" icon>
+                {{`keyboard_arrow_${showPostCreator ? 'up' : 'down'}`}}
+              </v-icon>
+            </v-btn>
           </v-card-actions>
+
+          <!-- Post Creator Tile -->
+          <v-slide-y-transition>
+            <v-card-text v-show="showPostCreator" class="grey lighten-4">
+              <v-list-tile avatar>
+                <v-list-tile-avatar>
+                  <img :src="post.createdBy.avatar">
+                </v-list-tile-avatar>
+                <v-list-tile-content>
+                  <v-list-tile-title class="text--primary">
+                    {{post.createdBy.username}}
+                  </v-list-tile-title>
+                  <v-list-tile-subtitle class="font-weight-thin">
+                    Added {{post.createdDate}}
+                  </v-list-tile-subtitle>
+                </v-list-tile-content>
+                <v-list-tile-action>
+                  <v-btn icon ripple>
+                    <v-icon color="grey lighten-1">info</v-icon>
+                  </v-btn>
+                </v-list-tile-action>
+              </v-list-tile>
+            </v-card-text>
+          </v-slide-y-transition>
         </v-card-hover>
       </v-flex>
     </v-layout>
