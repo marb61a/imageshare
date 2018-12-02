@@ -38,11 +38,42 @@ export default {
     }
   },
   apollo: {
-
+    query: INFINITE_SCROLL_POSTS,
+    variables: {
+      pageNum: 1,
+      pageSize
+    }
   },
   methods: {
     showMorePosts() {
+      this.pageNum += 1
 
+      // Fetch the data and then transform the original result
+      this.$apollo.queries.infiniteScrollPosts.fetchMore({
+        variables: {
+          // Increment the pageNum by 1
+          pageNum: this.pageNum,
+          pageSize
+        },
+        updateQuery: (prevResult, { fetchMoreResult }) => {
+          console.log("previous result", prevResult.infiniteScrollPosts.posts)
+          console.log("fetch more result", fetchMoreResult)
+
+          const newPosts = fetchMoreResult.infiniteScrollPosts.posts
+          const hasMore = fetchMoreResult.infiniteScrollPosts.hasMore
+          this.showMoreEnabled = hasMore
+
+          return {
+            infiniteScrollPosts: {
+              __typename: prevResult.infiniteScrollPosts.__typename,
+
+              // Merge previous posts with new posts
+              posts: [...prevResult.infiniteScrollPosts.posts, ...newPosts],
+              hasMore
+            }
+          }
+        }
+      })
     }
   }
 }
