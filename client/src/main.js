@@ -36,6 +36,24 @@ const defaultClient = new ApolloClient({
         authorization: localStorage.getItem("token")
       }
     });
+  },
+  onError: ({ graphQLErrors, networkError}) => {
+    if(networkError) {
+      console.log("[networkError]", networkError);
+    }
+
+    if(graphQLErrors) {
+      for(let err of graphQLErrors) {
+        console.dir(err)
+        if(err.name === "authentication") {
+          // Set the auth error state which shows in the snackbar
+          store.commit("setAuthError", err)
+
+          // Signout user which clears the token
+          store.dispatch("signoutUser")
+        }
+      }
+    }
   }
 })
 
@@ -48,5 +66,9 @@ new Vue({
   provide: ApolloProvider.provide(),
   router,
   store,
-  render: h => h(App)
+  render: h => h(App),
+  created() {
+    // execute getCurrentUser query
+    this.$store.dispatch("getCurrentUser");
+  }
 }).$mount('#app')
