@@ -10,8 +10,40 @@
     <!-- Add post form -->
     <v-layout row wrap>
       <v-flex xs12 sm6 offset-sm3>
-        <v-form>
-          
+        <v-form
+          v-model="isFormValid"
+          lazy-validation
+          ref="form"
+          @submit.prevent="handleAddPost"
+        >
+          <!-- Title input -->
+          <v-layout row>
+            <v-flex xs12>
+              <v-text-field
+                 :rules="titleRules"
+                 v-model="title"
+                 label="Post Title"
+                 type="text"
+                 required
+              >
+              </v-text-field>
+            </v-flex>
+          </v-layout>
+
+          <!-- Image URL input -->
+          <v-layout row>
+            <v-flex xs12>
+              <v-text-field 
+                :rules="imageRules" 
+                v-model="imageUrl" 
+                label="Image URL" 
+                type="text" 
+                required
+              >
+              </v-text-field>
+            </v-flex>
+          </v-layout>
+
         </v-form>
       </v-flex>
     </v-layout>
