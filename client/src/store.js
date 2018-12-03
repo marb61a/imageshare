@@ -72,7 +72,19 @@ export default new Vuex.Store({
           console.error(ErrorEvent)
         })
     },
-    signinUser: ({ commit, payload }) => {
+    addPost: ({ commit }, payload) => {
+      apolloClient
+        .mutate({
+
+        })
+        .then(({ data }) => {
+          console.log(data.addPost)
+        })
+        .catch(err => {
+          console.error(err)
+        })
+    },
+    signinUser: ({ commit }, payload) => {
       apolloClient
         .mutate({
           mutation: SIGNIN_USER,
@@ -109,6 +121,19 @@ export default new Vuex.Store({
           commit("setError", err)
           console.error(err)
         })
+    },
+    signoutUser: async({ commit }) => {
+      // Clear the user in state
+      commit("clearUser")
+
+      // Remove the token in localStorage
+      localStorage.setItem("token", "")
+
+      // End the session
+      await apolloClient.resetStore()
+
+      // Redirect home which will remove users from private pages
+      router.push("/")
     }
   },
   getters: {
