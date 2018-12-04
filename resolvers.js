@@ -56,7 +56,19 @@ module.exports = {
           })
           .limit(pageSize)
       } else {
-
+        /* 
+          If page number greater than one then the amount of documents
+          that need to be skipped will have to be resolved
+        */
+        const skips = pageSize * (pageNum - 1)
+        posts = await Post.find({})
+          .sort({createdDate: "desc"})
+          .populate({
+            path: "createdBy",
+            model: "User"
+          })
+          .skip(skips)
+          .limit(pageSize)
       }
 
       const totalDocs = await Post.countDocuments
@@ -77,6 +89,28 @@ module.exports = {
       }).save();
 
       return newPost;
+    },
+    addPostMessage: async (_, { messageBody, userId, postId }, { Post }) =>  {
+      const newMessage = {
+        messageBody,
+        messageUser: userId
+      }
+      const post = await Post.findOneAndUpdate(
+        // Find the post by its id
+        { _id: postId },
+
+        // Prepend new message to the beginning of the messages array
+        { $push: { messages: { $each: [newMessage], $position: 0 } } },
+
+        // Return a fresh document after the update
+        { new: true}
+      )
+        .populate({
+          path: "messages.messageUser",
+          model: "User"
+        })
+
+        return post.messages[0]
     },
     signinUser: async(_, { username, password }, { User }) => {
       const user = await User.findOne({ username})
