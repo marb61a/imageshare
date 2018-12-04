@@ -34,7 +34,34 @@ module.exports = {
           model: 'User'
         })
 
-      return posts; 
+      return posts
+    },
+    getPost: async(_, { postId }, { Post }) => {
+      const post = awaitPost.findOne({ _id: postId })
+        .populate({
+          path: "messages.messageUser",
+          model: "User"
+        })
+
+        return post
+    },
+    infiniteScrollPosts: async (_, { pageNum, pageSize }, { Post }) => {
+      let posts
+      if(pageNum === 1) {
+        posts = await Post.find({})
+          .sort({ createdDate: "desc" })
+          .populate({
+            path: "createdBy",
+            model: "User"
+          })
+          .limit(pageSize)
+      } else {
+
+      }
+
+      const totalDocs = await Post.countDocuments
+      const hasMore = totalDocs > pageSize * pageNum
+      return { posts, hasMore }
     }
   },
   Mutation: {
