@@ -39,9 +39,49 @@
               </v-card-media>
             </v-card>
           </v-dialog>
+          <v-card-text>
+            <span v-for="(category, index) in getPost.categories" :key="index">
+              <v-chip class="mb-3" color="accent" text-color="white">
+                {category}
+              </v-chip>
+            </span>
+            <h3>{{getPost.description}}</h3>
+          </v-card-text>
         </v-card>
       </v-flex>
     </v-layout>
+
+    <!-- Messages Section -->
+    <div class="mt-3">
+      <!-- Messages input -->
+      <v-layout class="mb-3" v-if="user">
+        <v-flex xs12>
+          <v-form
+            v-model="isFormValid"
+            lazy-validation
+            ref="form"
+            @submit.prevent="handleAddPostMessage"
+          >
+            <v-layout row>
+              <v-flex>
+                <v-text-field
+                  :rules="messageRules"
+                  v-model="messageBody"
+                  clearable
+                  :append-outer-icon="messageBody && 'send'"
+                  label="Add Message"
+                  type="text"
+                  @click:append-outer="handleAddPostMessage"
+                  prepend-icon="email"
+                  required
+                >
+                </v-text-field>
+              </v-flex>
+            </v-layout>
+          </v-form>
+        </v-flex>
+      </v-layout>
+    </div>
   </v-container>
 </template>
 
