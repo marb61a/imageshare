@@ -81,7 +81,46 @@ export const INFINITE_SCROLL_POSTS = gql`
 
 // Posts Mutations
 export const ADD_POST = gql`
+  mutation(
+    $title: String!
+    $imageUrl: String!
+    $categories: [String]!
+    $description: String!
+    $creatorId: ID!
+  ) {
+    addPost(
+      title: $title
+      imageUrl: $imageUrl
+      categories: $categories
+      description: $description
+      creatorId: $creatorId
+    ) {
+      _id
+      title
+      imageUrl
+      categories
+      description
+    }
+  }
+`;
 
+export const ADD_POST_MESSAGE = gql`
+  mutation($messageBody: String!, $userId: ID!, $postId: ID!) {
+    addPostMessage(
+      messageBody: $messageBody
+      userId: $userId
+      postId: $postId
+    ) {
+      _id
+      messageBody
+      messageDate
+      messageUser{
+        _id
+        username
+        avatar
+      }
+    }
+  }
 `;
 
 // User Mutations
