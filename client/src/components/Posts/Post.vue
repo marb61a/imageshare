@@ -158,8 +158,18 @@ export default {
     ...mapGetters(["user", "userFavorites"])
   },
   methods: {
-    checkIfPostLiked() {
-
+    checkIfPostLiked(postId) {
+      // Check if user favourites includes post with id of 'postId'
+      if(
+        this.userFavorites && 
+        this.userFavorites.some(fave => fave._id === postId)
+      ) {
+        this.postLiked = true
+        return true
+      } else {
+        this.postLiked = false
+        return false
+      }
     },
     handleToggleLike() {
       if(this.postLiked) {
@@ -173,7 +183,35 @@ export default {
         postId: this.postId,
         username: this.user.username
       }
-      
+
+      this.$apollo
+        .mutate({
+          mutation: LIKE_POST,
+          variables,
+          update: (cache, { data: { likePost } }) => {
+            const data = cache.readQuery({
+              query: GET_POST,
+              variables: { postId: this.postId }
+            })
+            data.getPost.likes += 1
+            cache.writeQuery({
+              query: GET_POST,
+              variables: { postId: this.postId },
+              data
+            })
+          }
+        })
+        .then(({data}) => {
+          const updatedUser = {
+            ...this.user,
+            favorites: data.likePost.favorites
+          }
+          this.$store.commit("setUser", updatedUser)
+        })
+        .catch(err => console.error(err))
+    },
+    handleUnlikePost() {
+
     }
   }
 }
