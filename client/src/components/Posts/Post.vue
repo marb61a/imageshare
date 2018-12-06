@@ -242,6 +242,36 @@ export default {
           this.$store.commit("setUser", updatedUser)
         })
         .catch(err => console.error(err))
+    },
+    handleAddPostMessage() {
+      const variables = {
+        messageBody: this.messageBody,
+        userId: this.user._id,
+        postId: this.postId
+      }
+
+      this.$apollo
+        .mutate({
+          mutation: ADD_POST_MESSAGE,
+          variables,
+          update: (cache, { data: { addPostMessage } }) => {
+            const data = cache.readQuery({
+              query: GET_POST,
+              variables: { postId: this.postId }
+            })
+            data.getPost.messages.unshift(addPostMessage)
+            cache.writeQuery({
+              query: GET_POST,
+              variables: { postId: this.postId },
+              data
+            })
+          }
+        })
+        .then(({ data }) => {
+          this.$refs.form.reset()
+          console.log(data.addPostMessage)
+        })
+        .catch(err => console.error(err))
     }
   }
 }
