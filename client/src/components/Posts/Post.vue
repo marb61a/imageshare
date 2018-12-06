@@ -244,7 +244,8 @@ export default {
         .catch(err => console.error(err))
     },
     handleAddPostMessage() {
-      const variables = {
+      if(this.$refs.form.validate()) {
+        const variables = {
         messageBody: this.messageBody,
         userId: this.user._id,
         postId: this.postId
@@ -272,6 +273,18 @@ export default {
           console.log(data.addPostMessage)
         })
         .catch(err => console.error(err))
+      }
+    },
+    goToPreviousPage() {
+      this.$router.go(-1);
+    },
+    toggleImageDialog() {
+      if (window.innerWidth > 500) {
+        this.dialog = !this.dialog;
+      }
+    },
+    checkIfOwnMessage(message) {
+      return this.user && this.user._id === message.messageUser._id;
     }
   }
 }
