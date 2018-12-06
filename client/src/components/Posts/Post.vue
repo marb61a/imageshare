@@ -134,19 +134,47 @@ export default {
   props: ["postId"],
   data() {
     return {
-
+      postLiked: false,
+      dialog: false,
+      messageBody: "",
+      isFormValid: true,
+      messageRules: [
+        message => !!message || "Message is required",
+        message => message.length < 75 || "Message must be less than 75 characters"
+      ]
     }
   },
   apollo: {
     getPost: {
-
+      query: GET_POST,
+      variables() {
+        return {
+          postId: this.postId
+        }
+      }
     }
   },
   computed: {
-
+    ...mapGetters(["user", "userFavorites"])
   },
   methods: {
+    checkIfPostLiked() {
 
+    },
+    handleToggleLike() {
+      if(this.postLiked) {
+        this.handleUnlikePost()
+      } else {
+        this.handleLikePost()
+      }
+    },
+    handleLikePost() {
+      const variables = {
+        postId: this.postId,
+        username: this.user.username
+      }
+      
+    }
   }
 }
 </script>
