@@ -126,7 +126,8 @@ import {
   GET_POST,
   ADD_POST_MESSAGE,
   LIKE_POST,
-  UNLIKE_POST
+  UNLIKE_POST,
+GET_CURRENT_USER
 } from "../../queries"
 
 export default {
@@ -211,7 +212,36 @@ export default {
         .catch(err => console.error(err))
     },
     handleUnlikePost() {
+      const variables = {
+        postId: this.postId,
+        username: this.user.username
+      }
 
+      this.$apollo
+        .mutate({
+          mutation: UNLIKE_POST,
+          variables,
+          update: (cache, { data: { unlikePost } }) => {
+            const data = cache.readQuery({
+              query: GET_POST,
+              variables: { postId: this.postId }
+            })
+            data.getPost.likes -= 1
+            cache.writeQuery({
+              query: GET_POST,
+              variables: { postId: this.postId },
+              data
+            })
+          }
+        })
+        .then(({ data }) => {
+          const updatedUser = {
+            ...this.user,
+            favorites: data.unlikePost.favorites
+          }
+          this.$store.commit("setUser", updatedUser)
+        })
+        .catch(err => console.error(err))
     }
   }
 }
