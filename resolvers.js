@@ -160,6 +160,34 @@ module.exports = {
           favorites: user.favorites
         }
     },
+    unlikePost: async(_, { postId, username }, { Post, User } ) => {
+      // Find a post and subtract 1 from its likes value
+      const post = await Post.findOneAndUpdate(
+        { _id: postId},
+        { $inc: { likes: -1 } },
+        { new: true }
+      )
+
+      /*
+        Find User, remove the id of a post from its favorites array, 
+        this will be populated as Posts
+      */
+      const user = await User.findOneAndUpdate(
+        { username },
+        { $pull: { favorites: postId } },
+        { new: true }
+      )
+      .populate({
+        path: "favorites",
+        model: "Post"
+      })
+    
+      // Return only likes from post and favorites from user
+      return {
+        likes: post.likes,
+        favorites: user.favorites
+      }
+    },
     signinUser: async(_, { username, password }, { User }) => {
       const user = await User.findOne({ username})
       if(!user) {
