@@ -149,9 +149,11 @@
     name: 'App',
     data() {
       return {
+        searchTerm: "",
         sideNav: false,
         authSnackbar: false,
-        authErrorSnackbar: false
+        authErrorSnackbar: false,
+        badgeAnimated: false
       }
     },
     watch: {
@@ -165,6 +167,13 @@
         // If the auth error is not null, show auth error snackbar
         if(value !== null) {
           this.authErrorSnackbar = true
+        }
+      },
+      userFavorites(value) {
+        // If the userFavorites value changed at all
+        if(value) {
+          this.badgeAnimated = true
+          setTimeout(() => (this.badgeAnimated = false), 1000)
         }
       }
     },
@@ -220,6 +229,15 @@
         // Clear search results
         this.$store.commit("clearSearchResults")
       },
+      formatDesc(desc) {
+        return desc.length > 30 ? `${desc.slice(0, 30)}...` : desc
+      },
+      checkIfUserFavorite(resultId) {
+        return (
+          this.userFavorites &&
+          this.userFavorites.some(fave => fave._id === resultId)
+        )
+      },
       toggleSideNav(){
         this.sideNav = !this.sideNav;
       }
@@ -243,4 +261,19 @@
     opacity: 0;
     transform: translateX(-25px);
   }
+
+  /* Search Card results */
+  #search__card {
+    position: absolute;
+    width: 100vw;
+    z-index: 8;
+    top: 100%;
+    left: 0%;
+  }
+
+  /* User Favorite Animation */
+  .bounce {
+    animation: bounce 1s both;
+  }
+
 </style>
