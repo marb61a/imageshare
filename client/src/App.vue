@@ -202,8 +202,23 @@
       }
     },
     methods: {
+      handleSearchPosts() {
+        this.$store.dispatch("searchPosts", {
+          searchTerm: this.searchTerm
+        })
+      },
       handleSignoutUser() {
-        this.$store.dispatch("signoutUser");
+        this.$store.dispatch("signoutUser")
+      },
+      goToSearchResult(resultId){
+        // Clear the search term
+        this.searchTerm = ""
+
+        // Go to the desired result
+        this.$router.push(`/posts/${resultId}`)
+
+        // Clear search results
+        this.$store.commit("clearSearchResults")
       },
       toggleSideNav(){
         this.sideNav = !this.sideNav;
