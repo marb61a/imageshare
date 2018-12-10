@@ -147,7 +147,25 @@ export const UPDATE_USER_POST = gql`
       categories: $categories
       description: $description
     ) {
+      _id
+      title
+      imageUrl
+      description
+      categories
+      createdDate
+      likes
+      createdBy {
+        _id
+        avatar
+      }
+    }
+  }
+`;
 
+export const DELETE_USER_POST = gql`
+  mutation($postId: ID!) {
+    deleteUserPost(postId: $postId) {
+      _id
     }
   }
 `;
