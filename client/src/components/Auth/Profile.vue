@@ -74,6 +74,39 @@
         <v-container>
           <v-form>
             <!-- Title Input -->
+            <v-layout row>
+              <v-flex xs12>
+                <v-text-field 
+                  :rules="titleRules" 
+                  v-model="title" 
+                  label="Post Title" 
+                  type="text" 
+                  required
+                >
+                </v-text-field>
+              </v-flex>
+            </v-layout>
+
+            <!-- Image Url Input -->
+            <v-layout row>
+              <v-flex xs12>
+                <v-text-field 
+                  :rules="imageRules" 
+                  v-model="imageUrl" 
+                  label="Image URL" 
+                  type="text" 
+                  required
+                >
+                </v-text-field>
+              </v-flex>
+            </v-layout>
+
+            <!-- Image Preview -->
+            <v-layout row>
+              <v-flex xs12>
+                <img :src="imageUrl" height="300px">
+              </v-flex>
+            </v-layout>
             
           </v-form>
         </v-container>
