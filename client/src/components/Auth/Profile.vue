@@ -65,6 +65,32 @@ export default {
       this.$store.dispatch("getUserPosts", {
         userId: this.user._id
       })
+    },
+    handleUpdateUserPost() {
+      if(this.$refs.form.validate()){
+        this.$store.dispatch("updateUserPost", {
+          postId: this.postId,
+          userId: this.user._id,
+          title: this.title,
+          imageUrl: this.imageUrl,
+          categories: this.categories,
+          description: this.description
+        })
+
+        this.editPostDialog = false
+      }
+    },
+    handleDeleteUserPost(post) {
+      this.loadPost(post, false)
+      const deletePost = window.confirm(
+        "Are you sure you want to delete this post?"
+      )
+
+      if(deletePost) {
+        this.$store.dispatch("deleteUserPost", {
+          postId: this.postId
+        })
+      }
     }
   }
 }
