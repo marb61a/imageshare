@@ -9,11 +9,32 @@
             </v-card-media>
           </v-flex>
           <v-flex xs7>
-
+            <v-card-title primary-title>
+              <div>
+                <div class="headline">{{user.username}}</div>
+                <div>Joined {{user.joinDate}}</div>
+                <div class="hidden-xs-only font-weight-thin">
+                  {{user.favorites.length}} Favorites
+                </div>
+                <div class="hidden-xs-only font-weight-thin">
+                  {{userPosts.length}} Posts Added
+                </div>
+              </div>
+            </v-card-title>
           </v-flex>
         </v-layout>
       </v-card>
     </v-flex>
+
+    <!-- Posts favorited by the user -->
+    <v-container v-if="!userFavorites.length">
+      <v-layout row wrap>
+        <v-flex xs12>
+          <h2>You have no favorites currently. Go and add some!</h2>
+        </v-flex>
+      </v-layout>
+    </v-container>
+
   </v-container>
 </template>
 
@@ -22,7 +43,28 @@ export default {
   name: "Profile",
   data() {
     return {
+      editPostDialog: false,
+      isFormValid: true,
+      title: "",
+      imageUrl: "",
+      categories: [],
+      description: "",
+      titleRules: [
 
+      ]
+    }
+  },
+  computed: {
+    ...mapGetters(["user", "userFavorites", "userPosts"])
+  },
+  created() {
+    this.handleGetUserPosts()
+  },
+  methods: {
+    handleGetUserPosts() {
+      this.$store.dispatch("getUserPosts", {
+        userId: this.user._id
+      })
     }
   }
 }
