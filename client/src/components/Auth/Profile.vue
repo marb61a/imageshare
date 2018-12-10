@@ -42,7 +42,43 @@
           </span>
         </h2>
       </v-flex>
+      <v-layout row wrap>
+        <v-card class="mt-3 ml-1 mr-2" hover>
+          <v-flex xs12 sm6 v-for="post in userPosts" :key="post._id">
+            <v-btn @click="loadPost(post)" color="info" floating fab small dark>
+              <v-icon>edit</v-icon>
+            </v-btn>
+            <v-btn 
+              @click="handleDeleteUserPost(post)" 
+              color="error" 
+              floating 
+              fab 
+              small 
+              dark
+            >
+              <v-icon>delete</v-icon>
+            </v-btn>
+            <v-card-media height="30vh" :src="post.imageUrl"></v-card-media>
+            <v-card-text>{{post.title}}</v-card-text> 
+          </v-flex>
+        </v-card>
+      </v-layout>
     </v-container>
+
+    <!-- Edit Post Dialog -->
+    <v-dialog xs12 sm6 offset-sm3 persistent v-model="editPostDialog">
+      <v-card>
+        <v-card-title class="headline grey lighten-2">
+          Update Post
+        </v-card-title>
+        <v-container>
+          <v-form>
+            <!-- Title Input -->
+            
+          </v-form>
+        </v-container>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
