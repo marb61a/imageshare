@@ -107,7 +107,54 @@
                 <img :src="imageUrl" height="300px">
               </v-flex>
             </v-layout>
-            
+
+            <!-- Categories Select -->
+            <v-layout row>
+              <v-flex xs12>
+                <v-select 
+                  v-model="categories" 
+                  :rules="categoriesRules" 
+                  :items="['Art', 'Education', 'Food', 'Furniture', 'Travel', 'Photography', 'Technology']" 
+                  multiple 
+                  label="Categories"
+                >
+                </v-select>
+              </v-flex>
+            </v-layout>
+
+            <!-- Description Text Area -->
+            <v-layout row>
+              <v-flex xs12>
+                <v-textarea :rules="descRules" 
+                  v-model="description" 
+                  label="Description" 
+                  type="text" 
+                  required
+                >
+                </v-textarea>
+              </v-flex>
+            </v-layout>
+
+            <v-divider></v-divider>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn 
+                :disabled="!isFormValid" 
+                type="submit" 
+                class="success--text" 
+                flat
+              >
+                Update
+              </v-btn>
+              <v-btn 
+                class="error--text" 
+                flat 
+                @click="editPostDialog = false"
+              >
+                Cancel
+              </v-btn>
+            </v-card-actions>
           </v-form>
         </v-container>
       </v-card>
