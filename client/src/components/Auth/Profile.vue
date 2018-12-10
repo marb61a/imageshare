@@ -34,7 +34,15 @@
         </v-flex>
       </v-layout>
     </v-container>
-
+    <v-container class="mt-3" v-else>
+      <v-flex xs12>
+        <h2 class="font-weight-light">Your Posts
+          <span class="font-weight-regular">
+            ({{userPosts.length}})
+          </span>
+        </h2>
+      </v-flex>
+    </v-container>
   </v-container>
 </template>
 
@@ -50,7 +58,18 @@ export default {
       categories: [],
       description: "",
       titleRules: [
-
+        title => !!title || "Title is required",
+        title => title.length < 20 || "Title must have less than 20 characters"
+      ],
+      imageRules: [image => !!image || "Image is required"],
+      categoriesRules: [
+        categories => 
+          categories.length >= 1 || "At least one category is required"
+      ],
+      descRules: [
+        desc => !!desc || "Description is required",
+        desc =>
+          desc.length < 200 || "Description must have less than 200 characters"
       ]
     }
   },
@@ -91,6 +110,17 @@ export default {
           postId: this.postId
         })
       }
+    },
+    loadPost(
+      { _, title, imageUrl, categories, description },
+      editPostDialog = true
+    ) {
+      this.editPostDialog = editPostDialog
+      this.postId = _id
+      this.title = title
+      this.imageUrl = imageUrl
+      this.categories = categories
+      this.description = description
     }
   }
 }
