@@ -44,6 +44,28 @@
             </v-flex>
           </v-layout>
 
+          <!-- Image Preview -->
+          <v-layout row>
+            <v-flex xs12>
+              <img :src="imageUrl" height="300px">
+            </v-flex>
+          </v-layout>
+
+          <!-- Categories Select -->
+          <v-layout row>
+            <v-flex xs12>
+              <v-select 
+                v-model="categories" 
+                :rules="categoriesRules" 
+                :items="['Art', 'Education', 'Food', 'Furniture', 'Travel', 'Photography', 'Technology']" 
+                multiple 
+                label="Categories"
+              >
+              </v-select>
+            </v-flex>
+          </v-layout>
+
+
         </v-form>
       </v-flex>
     </v-layout>
@@ -61,7 +83,21 @@ export default {
       title: "",
       imageUrl: "",
       categories: [],
-      description: ""
+      description: "",
+      titleRules: [
+        title => !!title || "Title is required",
+        title => title.length < 20 || "Title must have less than 20 characters"
+      ],
+      imageRules: [image => !!image || "Image is required"],
+      categoriesRules: [
+        categories =>
+          categories.length >= 1 || "At least one category is required"
+      ],
+      descRules: [
+        desc => !!desc || "Description is required",
+        desc =>
+          desc.length < 200 || "Description must have less than 200 characters"
+      ]
     }
   },
   computed: {
