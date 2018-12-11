@@ -5,8 +5,14 @@ import router from './router'
 import { defaultClient as apolloClient } from "./main"
 import { 
   GET_CURRENT_USER,
-  GET_POSTS, 
-  SIGNIN_USER ,
+  GET_POSTS,
+  INFINITE_SCROLL_POSTS,
+  GET_USER_POSTS,
+  SEARCH_POSTS,
+  ADD_POST,
+  UPDATE_USER_POST,
+  DELETE_USER_POST,
+  SIGNIN_USER,
   SIGNUP_USER
 } from "./queries"
 
@@ -84,6 +90,28 @@ export default new Vuex.Store({
           console.error(err)
         })
     },
+    updateUserPost: ({ state, commit }, payload) => {
+      apolloClient
+        .mutate({
+          mutation: UPDATE_USER_POST,
+          variables: payload
+        })
+        .then(({ data }) => {
+          const index = state.userPosts.findIndex(
+            post => post._id === data.updateUserPost._id
+          )
+          const userPosts = [
+            ...state.userPosts.slice(0, index),
+            data.updateUserPost,
+            ...state.userPosts.slice(index + 1)
+          ]
+
+          commit("setUserPosts", userPosts)
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    },
     signinUser: ({ commit }, payload) => {
       apolloClient
         .mutate({
@@ -138,7 +166,10 @@ export default new Vuex.Store({
   },
   getters: {
     posts: state => state.posts,
+    userPosts: state => state.userPosts,
+    searchResults: state => state.searchResults,
     user: state => state.user,
+    userFavorites: state => state.user && state.user.favorites,
     loading: state => state.loading,
     error: state => state.error,
     authError: state => state.authError
