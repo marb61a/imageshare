@@ -71,6 +71,9 @@
       </v-text-field>
       <v-spacer></v-spacer>
 
+      <!-- Search Results card -->
+      
+
       <!-- Horizontal Navbar Links -->
       <v-toolbar-items class="hidden-xs-only">
         <v-btn 
@@ -88,8 +91,14 @@
         <!-- Profile Button -->
         <v-btn flat to="/profile" v-if="user">
           <v-icon class="hidden-sm-only" left>account_box</v-icon>
-          <v-badge right color="blue darken-2">
-            <!-- <span slot="badge"></span> -->
+          <v-badge 
+            right 
+            color="blue darken-2" 
+            :class="{ 'bounce': badgeAnimated }"
+          >
+            <span slot="badge" v-if="userFavorites.length">
+              {{userFavorites.length}}
+            </span>
             Profile
           </v-badge>
         </v-btn>
@@ -276,4 +285,23 @@
     animation: bounce 1s both;
   }
 
+  @keyframes bounce {
+  0%,
+  20%,
+  53%,
+  80%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  40%,
+  43% {
+    transform: translate3d(0, -20px, 0);
+  }
+  70% {
+    transform: translate3d(0, -10px, 0);
+  }
+  90% {
+    transform: translate3d(0, -4px, 0);
+  }
+}
 </style>
