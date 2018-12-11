@@ -49,6 +49,7 @@
 
     <!-- Horizontal Navbar -->
     <v-toolbar fixed color="primary" dark>
+      <!-- App Title -->
       <v-toolbar-side-icon @click="toggleSideNav">
       </v-toolbar-side-icon>
       <v-toolbar-title class="hidden-xs-only">
@@ -61,6 +62,8 @@
 
       <!-- Search Input -->
       <v-text-field
+        v-model="searchTerm"
+        @input="handleSearchPosts"
         flex
         prepend-icon="search"
         placeholder="Search Posts"
@@ -72,7 +75,27 @@
       <v-spacer></v-spacer>
 
       <!-- Search Results card -->
-      
+      <v-card dark v-if="searchResults.length" id="search__card">
+        <v-list>
+          <v-list-tile 
+            v-for="result in searchResults" 
+            :key="result._id" 
+            @click="goToSearchResult(result._id)"
+          >
+            <v-list-tile-title>
+              {{result.title}} -
+              <span class="font-weight-thin">
+                {{formatDescription(result.description)}}
+              </span>
+            </v-list-tile-title>
+
+            <!-- Show Icon if Result Favorited by User -->
+            <v-list-tile-action v-if="checkIfUserFavorite(result._id)">
+              <v-icon>favorite</v-icon>
+            </v-list-tile-action>
+          </v-list-tile>
+        </v-list>
+      </v-card>
 
       <!-- Horizontal Navbar Links -->
       <v-toolbar-items class="hidden-xs-only">

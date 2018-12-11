@@ -50,6 +50,9 @@ export default {
     handleGetCarouselPosts() {
       // This reaches out to the Vuex store & the action then gets the posts
       this.$store.dispatch("getPosts")
+    },
+    goToPost(postId) {
+      this.$router.push(`/posts/${postId}`);
     }
   }
 }
