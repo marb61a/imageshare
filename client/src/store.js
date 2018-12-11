@@ -110,7 +110,28 @@ export default new Vuex.Store({
         })
         .catch(err => {
           console.error(err);
-        });
+        })
+    },
+    deleteUserPost: ({ state, commit }, payload) => {
+      apolloClient
+        .mutate({
+          mutation: DELETE_USER_POST,
+          variables: payload
+        })
+        .then(({ data }) => {
+          const index = state.userPosts.findIndex(
+            post => post._id === data.deleteUserPost._id
+          )
+          const userPosts = [
+            ...state.userPosts.slice(0, index),
+            ...state.userPosts.slice(index + 1)
+          ]
+
+          commit("setUserPosts", userPosts)
+        })
+        .catch(err => {
+          console.error(err);
+        })
     },
     signinUser: ({ commit }, payload) => {
       apolloClient
