@@ -2,9 +2,19 @@
   <v-container fluid grid-list-xl>
     <!-- Post Cards -->
     <v-layout row wrap>
-      <v-flex xs12 sm6>
-        <v-card-hover>
-          <v-card-media :src="post.imageUrl" height="30vh" lazy>
+      <v-flex 
+        xs12 
+        sm6 
+        v-for="post in infiniteScrollPosts.posts" 
+        :key="post._id"
+      >
+        <v-card hover>
+          <v-card-media 
+            @click.native="goToPost(post._id)"
+            :src="post.imageUrl" 
+            height="30vh" 
+            lazy
+          >
           </v-card-media>
           <v-card-actions>
             <v-card-title primary>
@@ -46,7 +56,16 @@
               </v-list-tile>
             </v-card-text>
           </v-slide-y-transition>
-        </v-card-hover>
+        </v-card>
+      </v-flex>
+    </v-layout>
+
+    <!-- Fetch More Button -->
+    <v-layout v-if="showMoreEnabled" column>
+      <v-flex xs12>
+        <v-layout justify-center row>
+          <v-btn color="info" @click="showMorePosts">Fetch More</v-btn>
+        </v-layout>
       </v-flex>
     </v-layout>
   </v-container>
