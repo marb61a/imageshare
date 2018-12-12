@@ -59,15 +59,43 @@ export default {
   data() {
     return {
       username: "",
-      password: ""
+      password: "",
+      usernameRules: [
+        // Check if username in input
+        username => !!username || "Username is required",
+
+        // Make sure username is less than 10 characters
+        username =>
+          username.length < 10 || "Username must be less than 10 characters"
+      ],
+      passwordRules: [
+        password => !!password || "Password is required",
+        
+        // Make sure password is at least 7 characters
+        password =>
+          password.length >= 4 || "Password must be at least 4 characters"
+      ]
+    }
+  },
+  computed: {
+    ...mapGetters(["loading", "error", "user"])
+  },
+  watch: {
+    user(value) {
+      // If user value changes then redirect to home page
+      if (value) {
+        this.$router.push("/")
+      }
     }
   },
   methods: {
     handleSigninUser() {
-      this.$store.dispatch("signinUser", {
-        username: this.username,
-        password: this.password
-      })
+      if(this.$refs.form.validate()) {
+        this.$store.dispatch("signinUser", {
+          username: this.username,
+          password: this.password
+        })
+      }
     }
   }
 }
