@@ -42,7 +42,7 @@
           <v-card-text>
             <span v-for="(category, index) in getPost.categories" :key="index">
               <v-chip class="mb-3" color="accent" text-color="white">
-                {category}
+                {{category}}
               </v-chip>
             </span>
             <h3>{{getPost.description}}</h3>
@@ -102,7 +102,7 @@
                   <v-list-tile-sub-title>
                     {{message.messageUser.username}}
                     <span class="grey--text text--lighten-1 hidden-xs-only">
-                      {{message.messageDate}}
+                      {{getTimeFromNow(message.messageDate)}}
                     </span>
                   </v-list-tile-sub-title>
                 </v-list-tile-content>
@@ -121,13 +121,14 @@
 </template>
 
 <script>
+import moment from "moment"
 import { mapGetters } from "vuex"
 import {
   GET_POST,
   ADD_POST_MESSAGE,
   LIKE_POST,
   UNLIKE_POST,
-GET_CURRENT_USER
+  GET_CURRENT_USER
 } from "../../queries"
 
 export default {

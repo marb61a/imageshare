@@ -21,6 +21,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     posts: [],
+    userPosts: [],
+    searchResults: [],
     user: null,
     loading: false,
     error: null,
@@ -30,8 +32,16 @@ export default new Vuex.Store({
     setPosts(state, payload) {
       state.posts = payload
     },
+    setSearchResults(state, payload) {
+      if(payload !== null) {
+        state.searchResults = payload
+      }
+    },
     setUser(state, payload) {
       state.user = payload
+    },
+    setUserPosts: (state, payload) => {
+      state.userPosts = payload;
     },
     setLoading: (state, payload) => {
       state.loading = payload;
@@ -43,6 +53,7 @@ export default new Vuex.Store({
       state.authError = payload;
     },
     clearUser: state => (state.user = null),
+    clearSearchResults: state => (state.searchResults = []),
     clearError: state => (state.error = null)
   },
   actions: {
