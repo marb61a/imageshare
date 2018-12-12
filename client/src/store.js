@@ -78,6 +78,31 @@ export default new Vuex.Store({
           console.error(ErrorEvent)
         })
     },
+    getUserPosts: ({ commit }, payload) => {
+      apolloClient
+        .query({
+          query: GET_USER_POSTS,
+          payload: variables
+        })
+        .then(({ data }) => {
+          commit("setUserPosts", data.getUserPosts)
+        })
+        .catch(err => {
+          console.error(err)
+        })
+    },
+    searchPosts: ({ commit }, payload) => {
+      query({
+        query: SEARCH_POSTS,
+        variables: payload
+      })
+      .then(({ data }) => {
+        commit("setSearchResults", data.searchPosts)
+      })
+      .catch(err => {
+        console.error(err)
+      })
+    },
     addPost: ({ commit }, payload) => {
       apolloClient
         .mutate({
