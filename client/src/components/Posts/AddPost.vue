@@ -65,7 +65,35 @@
             </v-flex>
           </v-layout>
 
+          <!-- Description Text Area -->
+          <v-layout row>
+            <v-flex xs12>
+              <v-textarea 
+                :rules="descRules" 
+                v-model="description" 
+                label="Description" 
+                type="text" 
+                required
+              >
+              </v-textarea>
+            </v-flex>
+          </v-layout>
 
+          <v-layout row>
+            <v-flex xs12>
+              <v-btn 
+                :loading="loading" 
+                :disabled="!isFormValid || loading" 
+                color="info" 
+                type="submit"
+              >
+                <span slot="loader" class="custom-loader">
+                  <v-icon light>cached</v-icon>
+                </span>
+                Submit
+              </v-btn>
+            </v-flex>
+          </v-layout>
         </v-form>
       </v-flex>
     </v-layout>
