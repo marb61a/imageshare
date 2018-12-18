@@ -32,9 +32,9 @@
               {{item.icon}}
             </v-icon>
           </v-list-tile-action>
-          <v-list-tile-action>
+          <v-list-tile-content>
             {{item.title}}
-          </v-list-tile-action>
+          </v-list-tile-content>
         </v-list-tile>
 
         <!-- Signout Button -->

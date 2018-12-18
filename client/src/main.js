@@ -6,7 +6,7 @@ import router from './router'
 import store from './store'
 
 import ApolloClient from 'apollo-boost'
-import VueApollo, { ApolloProvider } from 'vue-apollo'
+import VueApollo from 'vue-apollo'
 
 import FormAlert from "./components/Shared/FormAlert"
 
@@ -16,7 +16,7 @@ Vue.component("form-alert", FormAlert)
 Vue.use(VueApollo)
 
 // Setup ApolloClient
-const defaultClient = new ApolloClient({
+export const defaultClient = new ApolloClient({
   uri: 'http://localhost:4000/graphql',
 
   // Include auth token with requests made to backend
@@ -45,7 +45,7 @@ const defaultClient = new ApolloClient({
     if(graphQLErrors) {
       for(let err of graphQLErrors) {
         console.dir(err)
-        if(err.name === "authentication") {
+        if(err.name === "AuthenticationError") {
           // Set the auth error state which shows in the snackbar
           store.commit("setAuthError", err)
 
@@ -57,7 +57,7 @@ const defaultClient = new ApolloClient({
   }
 })
 
-const apolloProvider = new VueApollo({defaultClient})
+const apolloProvider = new VueApollo({ defaultClient })
 
 Vue.config.productionTip = false
 

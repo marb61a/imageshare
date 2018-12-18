@@ -29,28 +29,28 @@ export default new Vuex.Store({
     authError: null
   },
   mutations: {
-    setPosts(state, payload) {
+    setPosts: (state, payload) => {
       state.posts = payload
     },
-    setSearchResults(state, payload) {
+    setSearchResults: (state, payload) => {
       if(payload !== null) {
         state.searchResults = payload
       }
     },
-    setUser(state, payload) {
+    setUser: (state, payload) => {
       state.user = payload
     },
     setUserPosts: (state, payload) => {
-      state.userPosts = payload;
+      state.userPosts = payload
     },
     setLoading: (state, payload) => {
-      state.loading = payload;
+      state.loading = payload
     },
     setError: (state, payload) => {
-      state.error = payload;
+      state.error = payload
     },
     setAuthError: (state, payload) => {
-      state.authError = payload;
+      state.authError = payload
     },
     clearUser: state => (state.user = null),
     clearSearchResults: state => (state.searchResults = []),
@@ -71,7 +71,7 @@ export default new Vuex.Store({
         })
         .catch(err => {
           commit("setLoading", false)
-          console.error(ErrorEvent)
+          console.error(err)
         })
     },
     getPosts: ({commit}) => {
@@ -86,14 +86,14 @@ export default new Vuex.Store({
         })
         .catch(err => {
           commit("setLoading", false)
-          console.error(ErrorEvent)
+          console.error(err)
         })
     },
     getUserPosts: ({ commit }, payload) => {
       apolloClient
         .query({
           query: GET_USER_POSTS,
-          payload: variables
+          variables: payload
         })
         .then(({ data }) => {
           commit("setUserPosts", data.getUserPosts)
