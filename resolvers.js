@@ -113,9 +113,9 @@ module.exports = {
         categories,
         description,
         creatorId
-      }).save();
+      }).save()
 
-      return newPost;
+      return newPost
     },
     updateUserPost: async(
       _,
@@ -128,6 +128,13 @@ module.exports = {
         { $set: { title, imageUrl, categories, description } },
         { new: true }
       )
+
+      return post
+    },
+    deleteUserPost: async(_, { postId }, { Post } ) => {
+      const post = await Post.findOneAndRemove({ 
+        _id: postId 
+      })
 
       return post
     },
